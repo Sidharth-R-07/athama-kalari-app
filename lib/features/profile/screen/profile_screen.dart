@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:athma_kalari_app/features/profile/widgets/profile_tab.dart';
+import 'package:athma_kalari_app/features/profile/widgets/select_image_popup.dart';
 import 'package:athma_kalari_app/general/assets/app_icons.dart';
 import 'package:athma_kalari_app/general/utils/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:page_transition/page_transition.dart';
@@ -14,6 +18,7 @@ import '../../../general/services/custom_toast.dart';
 import '../../authentication/screens/phone_verification_screen.dart';
 import '../../user/provider/user_provider.dart';
 import '../widgets/logout_dilogue.dart';
+import 'profile_edit_screen.dart';
 import 'support_details_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -31,6 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final userListner = Provider.of<UserProvider>(context, listen: true);
     final userData = userListner.userData;
     final currentUser = userListner.currentUser;
+
     return ColoredBox(
       color: AppColors.bgWhite,
       child: CustomScrollView(
@@ -49,33 +55,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Stack(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 50,
                         backgroundColor: AppColors.primaryColorLight,
                         child: CircleAvatar(
                           radius: 48,
                           backgroundColor: AppColors.bgWhite,
-                          child: Icon(
-                            IconlyBold.profile,
-                            size: 50,
-                            color: AppColors.primaryColor,
-                          ),
+                          backgroundImage: currentUser != null
+                              ? userData?.image != null
+                                  ? NetworkImage(userData!.image!)
+                                  : null
+                              : null,
+                          child: userListner.imageUploadLoading
+                              ? const CupertinoActivityIndicator(
+                                  radius: 10,
+                                  color: AppColors.primaryColor,
+                                )
+                              : currentUser == null
+                                  ? const Icon(
+                                      IconlyBold.profile,
+                                      size: 50,
+                                      color: AppColors.primaryColor,
+                                    )
+                                  : userData?.image == null
+                                      ? const Icon(
+                                          IconlyBold.profile,
+                                          size: 50,
+                                          color: AppColors.primaryColor,
+                                        )
+                                      : const SizedBox(),
                         ),
                       ),
-                      Positioned(
-                        bottom: 5,
-                        right: 0,
-                        child: InkWell(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: () {},
-                          child: Image.asset(
-                            AppIcons.editProfile,
-                            height: 25,
-                            width: 25,
-                          ),
-                        ),
-                      )
+                      currentUser != null
+                          ? Positioned(
+                              bottom: 5,
+                              right: 0,
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return ImageSelectionPopup();
+                                    },
+                                  );
+                                },
+                                child: Image.asset(
+                                  AppIcons.editProfile,
+                                  height: 25,
+                                  width: 25,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink()
                     ],
                   ),
                   const SizedBox(height: 15),
@@ -104,7 +137,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        )
+                        ),
+                  currentUser != null
+                      ? Text('Reg.No : ${userData?.registerNumber}',
+                          style: const TextStyle(
+                            color: AppColors.grey,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w400,
+                          ))
+                      : const SizedBox.shrink()
                 ],
               ),
             ),
@@ -119,7 +160,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               text: 'My Courses',
               onTap: () {
                 //TODO: Navigate to my courses screen
-                userProvider.fetchUserDetails();
               },
               icon: AppIcons.profileCourse,
             ),
@@ -134,13 +174,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SliverToBoxAdapter(
-            child: ProfileTab(
-              text: 'Edit Profile',
-              icon: AppIcons.profileEdit,
-              onTap: () {
-                //TODO: Navigate to my courses screen
-              },
-            ),
+            child: currentUser != null
+                ? ProfileTab(
+                    text: 'Edit Profile',
+                    icon: AppIcons.profileEdit,
+                    onTap: () {
+                      Navigator.of(context).push(PageTransition(
+                          child: const ProfileEditScreen(),
+                          type: PageTransitionType.rightToLeftWithFade));
+                    },
+                  )
+                : null,
           ),
           SliverToBoxAdapter(
             child: ProfileTab(
@@ -181,23 +225,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SliverToBoxAdapter(
-            child: ProfileTab(
-              text: 'Logout',
-              icon: AppIcons.profileLogout,
-              onTap: () {
-                showLogoutDilog(context);
-              },
-            ),
+            child: currentUser != null
+                ? ProfileTab(
+                    text: 'Logout',
+                    icon: AppIcons.profileLogout,
+                    onTap: () {
+                      showLogoutDilog(context);
+                    },
+                  )
+                : null,
           ),
           SliverToBoxAdapter(
-            child: ProfileTab(
-              text: 'Delete Account',
-              icon: AppIcons.profileDelete,
-              hideDivider: true,
-              onTap: () {
-                //TODO: Navigate to my courses screen
-              },
-            ),
+            child: currentUser != null
+                ? ProfileTab(
+                    text: 'Delete Account',
+                    icon: AppIcons.profileDelete,
+                    hideDivider: true,
+                    onTap: () {
+                      //TODO: Navigate to my courses screen
+                    },
+                  )
+                : null,
           ),
           const SliverToBoxAdapter(
             child: SizedBox(

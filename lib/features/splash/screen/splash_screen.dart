@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:athma_kalari_app/features/home/widgets/bottom_bar.dart';
 import 'package:athma_kalari_app/general/assets/app_icons.dart';
 import 'package:athma_kalari_app/general/assets/app_images.dart';
@@ -17,6 +19,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool showNext = false;
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 4), () async {
@@ -48,30 +51,53 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           SizedBox(
-            height: 25,
+            height: 20,
             child: AnimatedTextKit(
-              repeatForever: true,
-              isRepeatingAnimation: true,
+              totalRepeatCount: 1,
+              pause: const Duration(seconds: 6),
+              onNextBeforePause: (p0, p1) {
+                setState(() {
+                  showNext = true;
+                });
+              },
               animatedTexts: [
                 RotateAnimatedText(
                   '   Athma Learning',
                   textStyle: const TextStyle(
                       fontSize: 12.0,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                       color: AppColors.primaryColor),
+                  duration: const Duration(seconds: 1),
                   alignment: Alignment.center,
-                  transitionHeight: 50,
-                ),
-                RotateAnimatedText(
-                  '   Focus Your Athma',
-                  textStyle: const TextStyle(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.grey,
-                  ),
-                  alignment: Alignment.center,
+                  transitionHeight: 25,
+                  rotateOut: false,
                 ),
               ],
+            ),
+          ),
+          SizedBox(
+            height: 20,
+            child: Visibility(
+              visible: showNext,
+              child: AnimatedTextKit(
+                totalRepeatCount: 1,
+                pause: const Duration(seconds: 6),
+                onNextBeforePause: (p0, p1) => true,
+                animatedTexts: [
+                  RotateAnimatedText(
+                    '   Focus Your Athma',
+                    textStyle: const TextStyle(
+                      fontSize: 9,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.grey,
+                    ),
+                    duration: const Duration(seconds: 2),
+                    alignment: Alignment.center,
+                    transitionHeight: 25,
+                    rotateOut: false,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

@@ -1,10 +1,14 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:athma_kalari_app/features/user/model/user_model.dart';
 import 'package:athma_kalari_app/general/services/custom_toast.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../../general/services/upload_firestore_image_services.dart';
 
 class UserProvider with ChangeNotifier {
   UserModel? userData;
@@ -12,6 +16,7 @@ class UserProvider with ChangeNotifier {
   final firestore = FirebaseFirestore.instance;
   bool isLoading = false;
   bool addLoading = false;
+  bool imageUploadLoading = false;
 
   //UPDATE CURRENT USER STATUS
 
@@ -30,6 +35,7 @@ class UserProvider with ChangeNotifier {
       final ref = firestore.collection('users');
 
       await ref.doc(FirebaseAuth.instance.currentUser?.uid).set(user.toMap());
+      await fetchUserDetails();
       await updateRegisterNumber();
       log('User Added Successfully');
       isStored = true;
@@ -45,22 +51,74 @@ class UserProvider with ChangeNotifier {
 
   //GET USER DETAILS
   Future<void> fetchUserDetails() async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      log('User Not Logged In');
+      return;
+    }
     try {
-      final querysnap = await firestore
+      firestore
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser?.uid)
-          .get();
-      final data = querysnap.data();
+          .snapshots()
+          .listen((event) {
+        log("USER SNAP CALLED");
+        final data = event.data();
 
-      userData = UserModel.fromMap(data as Map<String, dynamic>);
-
-      notifyListeners();
+        userData = UserModel.fromMap(data as Map<String, dynamic>);
+        notifyListeners();
+      });
 
       log('User Data Fetched Successfully');
     } catch (e) {
       CustomToast.errorToast(message: 'Something went wrong');
       log(e.toString());
     }
+  }
+
+  //UPDATE USER IMAGE URL
+  Future<void> updateUserImageUrl(ImageSource source) async {
+    imageUploadLoading = true;
+
+    notifyListeners();
+    try {
+      final ref = firestore.collection('users');
+      final pickedFile = await ImagePicker().pickImage(source: source);
+      final imageUrl = await uploadFirestoreImageServices(
+          File(pickedFile!.path).readAsBytesSync());
+
+      await ref
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .update({'image': imageUrl});
+    } catch (e) {
+      CustomToast.errorToast(message: 'Something went wrong');
+      log(e.toString());
+    }
+    imageUploadLoading = false;
+    notifyListeners();
+  }
+
+  //UPDATE USER DETAILS
+
+  Future<bool> updateUserData(UserModel user) async {
+    bool isStored = false;
+    addLoading = true;
+    notifyListeners();
+    try {
+      final ref = firestore.collection('users');
+
+      await ref
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .update(user.toMap());
+      log('User Update Successfully');
+      isStored = true;
+    } catch (err) {
+      isStored = false;
+      CustomToast.errorToast(message: 'Something went wrong');
+      log(err.toString());
+    }
+    addLoading = false;
+    notifyListeners();
+    return isStored;
   }
 
   //GET REGISTER NUMBER

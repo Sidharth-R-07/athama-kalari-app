@@ -263,7 +263,7 @@ class _AddUserDetailsScreenState extends State<AddUserDetailsScreen> {
     final fcmToken = await FirebaseMessaging.instance.getToken();
     final newUser = UserModel(
       address: _addressController.text,
-      bloodGroup: _addressController.text,
+      bloodGroup: _bloodGroupController.text,
       gender: getGender.name,
       name: _nameController.text,
       registerNumber: _registerNumberController.text,
