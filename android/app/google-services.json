@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1076801484157",
+    "project_id": "my-athma",
+    "storage_bucket": "my-athma.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076801484157:android:25575a0b4fb8a8eef10814",
+        "android_client_info": {
+          "package_name": "com.athma_kalari"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnG7Mxl8ShqvnXXncLsXNdVy_D4pMOpPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
