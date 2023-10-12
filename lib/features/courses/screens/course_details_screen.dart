@@ -260,6 +260,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         myCourseListner.addCourse(
                           course: widget.course,
                           registerNumber: userListner.userData!.registerNumber!,
+                          context: context,
+                          user: userListner.userData!,
                         );
                       }
                     }

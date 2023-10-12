@@ -33,4 +33,7 @@ class AppIcons {
   static const String unLockIcon = 'assets/icons/Group 285 (1).png';
   static const String shareIcon = 'assets/icons/share-2.png';
   static const String editProfile = 'assets/icons/Group 415.png';
+  static const String assessmentTime = 'assets/icons/formkit_time.png';
+  static const String assessmentQuestion = 'assets/icons/Frame 384.png';
+  static const String assessmentMark = 'assets/icons/Frame 385.png';
 }

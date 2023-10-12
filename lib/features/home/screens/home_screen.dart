@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
         //INTRODUCTION VIDEO
         const SliverToBoxAdapter(
             child: IntroductionVideoContainer(
-          videoUrl: 'https://youtu.be/jl11HVWI6mE?si=Wt7YX_BwPGxwRwPE',
+          videoUrl: 'https://youtu.be/nQwKKCqkJxg?si=bSt4aIYH-McwJ_1h',
           title: "Athma Kalari",
           subTitle: "Introduction",
         )),

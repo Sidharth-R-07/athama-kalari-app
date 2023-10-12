@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:athma_kalari_app/features/assessment/provider/assessment_provider.dart';
 import 'package:athma_kalari_app/general/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/my_courses_provider.dart';
+import '../widgets/my_certificates.dart';
 import '../widgets/my_course_list.dart';
 
 class MyCoursesScreen extends StatefulWidget {
@@ -24,7 +26,11 @@ class _MyCoursesScreenState extends State<MyCoursesScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final myCourseProvider =
           Provider.of<MyCourseProvider>(context, listen: false);
+      final myAssessmentProvider =
+          Provider.of<AssessmentProvider>(context, listen: false);
       await myCourseProvider.fetchAllMyCourses();
+      await myAssessmentProvider.getAssessmentIntroduction();
+      await myAssessmentProvider.fetchMyAssessment();
     });
   }
 
@@ -58,6 +64,7 @@ class _MyCoursesScreenState extends State<MyCoursesScreen>
   @override
   Widget build(BuildContext context) {
     final myCourseListner = Provider.of<MyCourseProvider>(context);
+    final myAssessMentListner = Provider.of<AssessmentProvider>(context);
 
     return DefaultTabController(
       length: 2,
@@ -101,9 +108,9 @@ class _MyCoursesScreenState extends State<MyCoursesScreen>
                 // Center(
                 //   child: Text('My Classes'),
                 // ),
-                const Center(
-                  child: Text('Certificates'),
-                ),
+                MyCertificatesScreen(
+                  myAssessment: myAssessMentListner.myAssessment,
+                )
               ],
             ),
           )

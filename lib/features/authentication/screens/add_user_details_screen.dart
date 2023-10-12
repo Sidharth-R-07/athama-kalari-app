@@ -64,184 +64,184 @@ class _AddUserDetailsScreenState extends State<AddUserDetailsScreen> {
     final size = MediaQuery.of(context).size;
     final userListner = Provider.of<UserProvider>(context, listen: true);
     return Scaffold(
-        body: userListner.isLoading == true
-            ? const AthmaLoading()
-            : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Form(
-                  key: _formKey,
-                  child: CustomScrollView(
-                    shrinkWrap: true,
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: size.height * 0.08,
+      body: userListner.isLoading == true
+          ? const AthmaLoading()
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Form(
+                key: _formKey,
+                child: CustomScrollView(
+                  shrinkWrap: true,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: size.height * 0.08,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: Text(
+                        'Enter your Details',
+                        style: TextStyle(
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.primaryColor),
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 20.0,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(child: Text('   Name')),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 8.0,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: CustomTextFeild(
+                        controller: _nameController,
+                        hintText: 'Enter your name',
+                        validator: validateName,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 12,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(child: Text('   Register Number')),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 8.0,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: CustomTextFeild(
+                        controller: _registerNumberController,
+                        disableFeild: true,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 12,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(child: Text('   Blood Group')),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 8.0,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: CustomTextFeild(
+                        controller: _bloodGroupController,
+                        hintText: 'Enter your Blood Group',
+                        validator: validateBloodGroup,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 12,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(child: Text('   Gender')),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 8.0,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: GenderSelectionDrpDown(
+                        selectedValue: getGender,
+                        isNotSelected: isNotSelected,
+                        onChanged: (Gender? newValue) {
+                          setState(() {
+                            getGender = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 12,
+                      ),
+                    ),
+                    const SliverToBoxAdapter(child: Text('   Adress')),
+                    const SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: 8.0,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: CustomTextFeild(
+                        textInputAction: TextInputAction.done,
+                        controller: _addressController,
+                        hintText: 'Enter your Address',
+                        maxLines: 3,
+                        validator: validateAddress,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: SizedBox(
+                        height: size.height * 0.1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+      bottomSheet: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MaterialButton(
+            color: AppColors.primaryColor,
+            minWidth: size.width * 0.9,
+            height: 42,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            onPressed: () {
+              if (userListner.addLoading == false) {
+                _submitFn();
+              }
+            },
+            child: userListner.addLoading
+                ? const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CupertinoActivityIndicator(
+                          color: AppColors.primaryColorLight,
                         ),
                       ),
-                      const SliverToBoxAdapter(
-                        child: Text(
-                          'Enter your Details',
-                          style: TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.primaryColor),
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 20.0,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(child: Text('   Name')),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 8.0,
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: CustomTextFeild(
-                          controller: _nameController,
-                          hintText: 'Enter your name',
-                          validator: validateName,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 12,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                          child: Text('   Register Number')),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 8.0,
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: CustomTextFeild(
-                          controller: _registerNumberController,
-                          disableFeild: true,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 12,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(child: Text('   Blood Group')),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 8.0,
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: CustomTextFeild(
-                          controller: _bloodGroupController,
-                          hintText: 'Enter your Blood Group',
-                          validator: validateBloodGroup,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 12,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(child: Text('   Gender')),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 8.0,
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: GenderSelectionDrpDown(
-                          selectedValue: getGender,
-                          isNotSelected: isNotSelected,
-                          onChanged: (Gender? newValue) {
-                            setState(() {
-                              getGender = newValue!;
-                            });
-                          },
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 12,
-                        ),
-                      ),
-                      const SliverToBoxAdapter(child: Text('   Adress')),
-                      const SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 8.0,
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: CustomTextFeild(
-                          textInputAction: TextInputAction.done,
-                          controller: _addressController,
-                          hintText: 'Enter your Address',
-                          maxLines: 3,
-                          validator: validateAddress,
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: size.height * 0.1,
+                      SizedBox(width: 10),
+                      Text(
+                        'Please wait...',
+                        style: TextStyle(
+                          color: AppColors.primaryColorLight,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-        bottomSheet: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MaterialButton(
-              color: AppColors.primaryColor,
-              minWidth: size.width * 0.9,
-              height: 42,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              onPressed: () {
-                if (userListner.addLoading == false) {
-                  _submitFn();
-                }
-              },
-              child: userListner.addLoading
-                  ? const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: CupertinoActivityIndicator(
-                            color: AppColors.primaryColorLight,
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'Please wait...',
-                          style: TextStyle(
-                            color: AppColors.primaryColorLight,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    )
-                  : const Text(
-                      'Lets Continue',
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  )
+                : const Text(
+                    'Lets Continue',
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
-            ),
-          ],
-        ));
+                  ),
+          ),
+        ],
+      ),
+    );
   }
 
   void _submitFn() async {

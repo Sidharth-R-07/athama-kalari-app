@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../category/models/category_model.dart';
@@ -38,6 +40,7 @@ class SubCategoryModel {
   }
 
   factory SubCategoryModel.fromMap(Map<String, dynamic> map) {
+    log("SubCategoryModel.fromMap: ${map['courses']}");
     return SubCategoryModel(
       id: map['id'] != null ? map['id'] as String : null,
       title: map['title'] != null ? map['title'] as String : null,

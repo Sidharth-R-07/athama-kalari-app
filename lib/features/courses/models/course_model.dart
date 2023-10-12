@@ -1,14 +1,12 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../assessment/models/course_assessment_model.dart';
 import '../../sub_category/models/sub_category_model.dart';
 
 class CourseModel {
   String? id;
   String? title;
   String? videoLink;
-  int? questionsCount;
   num? courseFee;
   List<dynamic>? bulletPoints;
   String? aboutCourse;
@@ -17,11 +15,11 @@ class CourseModel {
   List<dynamic>? keywords;
   Timestamp? createdAt;
   List<QuestionModel>? questions;
+  CourseAssessmentModel? assessemntDatails;
   CourseModel({
     this.id,
     this.title,
     this.videoLink,
-    this.questionsCount,
     this.courseFee,
     this.bulletPoints,
     this.aboutCourse,
@@ -30,6 +28,7 @@ class CourseModel {
     this.keywords,
     this.createdAt,
     this.questions,
+    this.assessemntDatails,
   });
 
   Map<String, dynamic> toMap() {
@@ -37,7 +36,6 @@ class CourseModel {
       'id': id,
       'title': title,
       'videoLink': videoLink,
-      'questionsCount': questionsCount,
       'courseFee': courseFee,
       'bulletPoints': bulletPoints,
       'aboutCourse': aboutCourse,
@@ -46,16 +44,15 @@ class CourseModel {
       'keywords': keywords,
       'createdAt': createdAt,
       'questions': questions?.map((x) => x.toMap()).toList() ?? [],
+      'assessemntDatails': assessemntDatails?.toMap(),
     };
   }
 
   factory CourseModel.fromMap(Map<String, dynamic> map) {
     return CourseModel(
-      id: map['id'],
+      id: map['id'] != null ? map['id'] as String : null,
       title: map['title'] != null ? map['title'] as String : null,
       videoLink: map['videoLink'] != null ? map['videoLink'] as String : null,
-      questionsCount:
-          map['questionsCount'] != null ? map['questionsCount'] as int : null,
       courseFee: map['courseFee'] != null ? map['courseFee'] as num : null,
       bulletPoints: map['bulletPoints'] != null
           ? List<dynamic>.from((map['bulletPoints'] as List<dynamic>))
@@ -83,6 +80,10 @@ class CourseModel {
               ),
             )
           : null,
+      assessemntDatails: map['assessmentDetails'] != null
+          ? CourseAssessmentModel.fromMap(
+              map['assessmentDetails'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -90,7 +91,6 @@ class CourseModel {
     String? id,
     String? title,
     String? videoLink,
-    int? questionsCount,
     num? courseFee,
     List<dynamic>? bulletPoints,
     String? aboutCourse,
@@ -99,12 +99,12 @@ class CourseModel {
     List<dynamic>? keywords,
     Timestamp? createdAt,
     List<QuestionModel>? questions,
+    CourseAssessmentModel? assessemntDatails,
   }) {
     return CourseModel(
       id: id ?? this.id,
       title: title ?? this.title,
       videoLink: videoLink ?? this.videoLink,
-      questionsCount: questionsCount ?? this.questionsCount,
       courseFee: courseFee ?? this.courseFee,
       bulletPoints: bulletPoints ?? this.bulletPoints,
       aboutCourse: aboutCourse ?? this.aboutCourse,
@@ -113,6 +113,7 @@ class CourseModel {
       keywords: keywords ?? this.keywords,
       createdAt: createdAt ?? this.createdAt,
       questions: questions ?? this.questions,
+      assessemntDatails: assessemntDatails ?? this.assessemntDatails,
     );
   }
 }
@@ -199,11 +200,15 @@ class QuestionModel {
   String? id;
   String? question;
   Timestamp? createdAt;
+  String? answer;
+  bool? isCorrect;
 
   QuestionModel({
     this.id,
     this.question,
     this.createdAt,
+    this.answer,
+    this.isCorrect,
   });
 
   Map<String, dynamic> toMap() {
@@ -211,6 +216,8 @@ class QuestionModel {
       'id': id,
       'question': question,
       'createdAt': createdAt,
+      'answer': answer,
+      'isCorrect': isCorrect,
     };
   }
 
@@ -221,6 +228,8 @@ class QuestionModel {
       createdAt: map['createdAt'] != null
           ? map['createdAt'] as Timestamp
           : Timestamp.now(),
+      answer: map['answer'] != null ? map['answer'] as String : null,
+      isCorrect: map['isCorrect'] != null ? map['isCorrect'] as bool : null,
     );
   }
 
@@ -228,11 +237,15 @@ class QuestionModel {
     String? id,
     String? question,
     Timestamp? createdAt,
+    String? answer,
+    bool? isCorrect,
   }) {
     return QuestionModel(
       id: id ?? this.id,
       question: question ?? this.question,
       createdAt: createdAt ?? this.createdAt,
+      answer: answer ?? this.answer,
+      isCorrect: isCorrect ?? this.isCorrect,
     );
   }
 }

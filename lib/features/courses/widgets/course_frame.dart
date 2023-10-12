@@ -2,7 +2,6 @@ import 'package:athma_kalari_app/features/courses/models/course_model.dart';
 import 'package:athma_kalari_app/features/courses/screens/course_details_screen.dart';
 import 'package:athma_kalari_app/general/services/custom_cached_network_image.dart';
 import 'package:athma_kalari_app/general/services/get_youtube_id_by_link.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -58,6 +57,8 @@ class CourseFrame extends StatelessWidget {
           ),
           Text(
             course!.title!,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,

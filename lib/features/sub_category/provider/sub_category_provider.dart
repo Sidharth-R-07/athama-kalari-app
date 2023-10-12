@@ -54,6 +54,7 @@ class SubCategoryProvider with ChangeNotifier {
       final data = refreshedClass.docs;
 
       for (var element in data) {
+        log("FETCH ALL SUB_CATEGORY : ${element.data()}");
         final subCat = SubCategoryModel.fromMap(element.data());
 
         subCategoryList.add(subCat);

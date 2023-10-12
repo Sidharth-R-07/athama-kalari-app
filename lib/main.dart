@@ -1,3 +1,4 @@
+import 'package:athma_kalari_app/features/assessment/provider/assessment_provider.dart';
 import 'package:athma_kalari_app/features/authentication/providers/auth_provider.dart';
 import 'package:athma_kalari_app/features/category/provider/category_provider.dart';
 import 'package:athma_kalari_app/features/courses/provider/course_provider.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
         ChangeNotifierProvider(create: (_) => MyCourseProvider()),
         ChangeNotifierProvider(create: (_) => SearchProvider()),
+        ChangeNotifierProvider(create: (_) => AssessmentProvider()),
       ],
       child: MaterialApp(
         title: 'Athma Kalari',

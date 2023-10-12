@@ -14,6 +14,7 @@ class SubCategoryFrame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("SubCategoryFrame: ${subCategory?.courses?.length}");
     return Container(
       width: 329,
       height: 130,
@@ -35,10 +36,13 @@ class SubCategoryFrame extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomCachedNetworkImage(
-            imageUrl: subCategory!.image!,
-            width: 125,
-            height: 114,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6),
+            child: CustomCachedNetworkImage(
+              imageUrl: subCategory!.image!,
+              width: 125,
+              height: 114,
+            ),
           ),
           const SizedBox(width: 10),
           Column(
