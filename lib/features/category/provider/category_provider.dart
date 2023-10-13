@@ -16,6 +16,7 @@ class CategoryProvider with ChangeNotifier {
 
   Future<void> fetchAllCategory() async {
     log("fetchAllCategory() Called");
+    categoryList = [];
     isLoading = true;
     notifyListeners();
 
@@ -77,7 +78,9 @@ class CategoryProvider with ChangeNotifier {
   }
 
   void clearData() {
+    clearData();
     categoryList.clear();
+
     notifyListeners();
   }
 }

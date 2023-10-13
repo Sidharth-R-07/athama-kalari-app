@@ -15,9 +15,11 @@ class AssessmentModel {
   bool? reTake;
   Timestamp? createdAt;
   int? totalQuestions;
-  List<String>? attemptsQuestion;
+  int? attemptsQuestion;
   CourseAssessmentModel? assessmentDteails;
   List<LessonModel>? courseLessons;
+  int? totalAttempts;
+  bool? isSubmitted;
   AssessmentModel({
     this.registerNumber,
     this.id,
@@ -33,6 +35,8 @@ class AssessmentModel {
     this.attemptsQuestion,
     this.assessmentDteails,
     this.courseLessons,
+    this.totalAttempts,
+    this.isSubmitted,
   });
 
   Map<String, dynamic> toMap() {
@@ -50,41 +54,48 @@ class AssessmentModel {
       'totalQuestions': totalQuestions,
       'attemptsQuestion': attemptsQuestion,
       'assessmentDteails': assessmentDteails?.toMap(),
-      'courseLessons': courseLessons,
+      'courseLessons': courseLessons?.map((x) => x.toMap()).toList(),
+      'totalAttempts': totalAttempts,
+      'isSubmitted': isSubmitted,
     };
   }
 
   factory AssessmentModel.fromMap(Map<String, dynamic> map) {
     return AssessmentModel(
-        registerNumber: map['registerNumber'] != null
-            ? map['registerNumber'] as String
-            : null,
-        id: map['id'] != null ? map['id'] as String : null,
-        courseId: map['courseId'] != null ? map['courseId'] as String : null,
-        courseName:
-            map['courseName'] != null ? map['courseName'] as String : null,
-        userId: map['userId'] != null ? map['userId'] as String : null,
-        userName: map['userName'] != null ? map['userName'] as String : null,
-        questions: map['questions'] != null
-            ? List<QuestionModel>.from(
-                (map['questions'] as List<int>).map<QuestionModel?>(
-                  (x) => QuestionModel.fromMap(x as Map<String, dynamic>),
-                ),
-              )
-            : null,
-        isPassed: map['isPassed'] != null ? map['isPassed'] as bool : null,
-        reTake: map['reTake'] != null ? map['reTake'] as bool : null,
-        createdAt: map['createdAt'],
-        totalQuestions:
-            map['totalQuestions'] != null ? map['totalQuestions'] as int : null,
-        attemptsQuestion:
-            map['attemptsQuestion'].map<String>((x) => x as String).toList(),
-        assessmentDteails: map['assessmentDteails'] != null
-            ? CourseAssessmentModel.fromMap(
-                map['assessmentDteails'] as Map<String, dynamic>)
-            : null,
-        courseLessons:
-            map['courseLessons'].map<String>((x) => x as String).toList());
+      registerNumber: map['registerNumber'] != null
+          ? map['registerNumber'] as String
+          : null,
+      id: map['id'] != null ? map['id'] as String : null,
+      courseId: map['courseId'] != null ? map['courseId'] as String : null,
+      courseName:
+          map['courseName'] != null ? map['courseName'] as String : null,
+      userId: map['userId'] != null ? map['userId'] as String : null,
+      userName: map['userName'] != null ? map['userName'] as String : null,
+      questions: map['questions'] != null
+          ? List<QuestionModel>.from(
+              (map['questions'] as List<dynamic>).map<QuestionModel?>(
+                (x) => QuestionModel.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
+      isPassed: map['isPassed'] != null ? map['isPassed'] as bool : null,
+      reTake: map['reTake'] != null ? map['reTake'] as bool : null,
+      createdAt: map['createdAt'],
+      totalQuestions:
+          map['totalQuestions'] != null ? map['totalQuestions'] as int : null,
+      attemptsQuestion: map['attemptsQuestion'] != null
+          ? map['attemptsQuestion'] as int
+          : null,
+      assessmentDteails:
+          CourseAssessmentModel.fromMap(map['assessmentDteails']),
+      courseLessons: map['courseLessons']
+          .map<LessonModel>((x) => LessonModel.fromMap(x))
+          .toList(),
+      isSubmitted:
+          map['isSubmitted'] != null ? map['isSubmitted'] as bool : null,
+      totalAttempts:
+          map['totalAttempts'] != null ? map['totalAttempts'] as int : null,
+    );
   }
 
   AssessmentModel copyWith({
@@ -98,10 +109,12 @@ class AssessmentModel {
     bool? reTake,
     Timestamp? createdAt,
     int? totalQuestions,
-    List<String>? attemptsQuestion,
+    int? attemptsQuestion,
     CourseAssessmentModel? assessmentDteails,
     String? registerNumber,
     List<LessonModel>? courseLessons,
+    int? totalAttempts,
+    bool? isSubmitted,
   }) {
     return AssessmentModel(
       id: id ?? this.id,
@@ -118,6 +131,8 @@ class AssessmentModel {
       assessmentDteails: assessmentDteails ?? this.assessmentDteails,
       registerNumber: registerNumber ?? this.registerNumber,
       courseLessons: courseLessons ?? this.courseLessons,
+      totalAttempts: totalAttempts ?? this.totalAttempts,
+      isSubmitted: isSubmitted ?? this.isSubmitted,
     );
   }
 }

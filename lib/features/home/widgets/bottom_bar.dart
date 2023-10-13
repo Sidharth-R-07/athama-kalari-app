@@ -1,7 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+
 import 'package:athma_kalari_app/features/notification/screen/notification_screen.dart';
 import 'package:athma_kalari_app/general/assets/app_icons.dart';
 import 'package:athma_kalari_app/general/utils/app_colors.dart';
-import 'package:flutter/material.dart';
 
 import '../../../general/assets/app_images.dart';
 import '../../../general/services/dynamic_link_services.dart';
@@ -11,7 +13,11 @@ import '../../profile/screen/profile_screen.dart';
 import '../screens/home_screen.dart';
 
 class BottomBar extends StatefulWidget {
-  const BottomBar({super.key});
+  int? currentIndex;
+  BottomBar({
+    Key? key,
+    this.currentIndex,
+  }) : super(key: key);
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -27,6 +33,18 @@ class _BottomBarState extends State<BottomBar> {
     const NotificationScreen(),
     const ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+
+      
+      setState(() {
+        currentIndex = widget.currentIndex ?? 0;
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

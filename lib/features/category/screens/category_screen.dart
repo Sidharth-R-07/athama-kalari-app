@@ -14,12 +14,11 @@ class CategoryScreen extends StatefulWidget {
 
 class _CategoryScreenState extends State<CategoryScreen> {
   Future<void> _getData() async {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final categoryProvider =
           Provider.of<CategoryProvider>(context, listen: false);
-      categoryProvider.clearData();
 
-      categoryProvider.fetchAllCategory();
+      await categoryProvider.fetchAllCategory();
     });
   }
 

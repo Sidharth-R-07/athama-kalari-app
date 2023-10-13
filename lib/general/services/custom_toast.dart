@@ -61,7 +61,6 @@ class CustomToast {
       enableSafeArea: true,
       enableKeyboardSafeArea: true,
       target: const Offset(520, 520),
-      
     );
   }
 
@@ -110,7 +109,7 @@ class CustomToast {
               child: Text(
                 message,
                 style: const TextStyle(
-                  color: const Color(0xFF333333),
+                  color: Color(0xFF333333),
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
                 ),
@@ -120,8 +119,9 @@ class CustomToast {
         ),
       ),
       duration: const Duration(seconds: 3),
-      target: const Offset(520, 520),
-      preferDirection: preferDirection ?? PreferDirection.topCenter,
+      target: const Offset(0, 10),
+
+      preferDirection: PreferDirection.bottomCenter,
     );
   }
 }

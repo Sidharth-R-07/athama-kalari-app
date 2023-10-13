@@ -1,39 +1,39 @@
 class AppIcons {
-  static const String floatingIcon = 'assets/icons/floating_icon.png';
-  static const String homeUnselected = 'assets/icons/home_unselected.png';
-  static const String homeSelected = 'assets/icons/home_selected.png';
-  static const String categoryUnselected =
-      'assets/icons/category_unselected.png';
-  static const String categorySelected = 'assets/icons/category_selected.png';
+  static const basedir = "assets/icons";
+  static const String floatingIcon = '$basedir/floating_icon.png';
+  static const String homeUnselected = '$basedir/home_unselected.png';
+  static const String homeSelected = '$basedir/home_selected.png';
+  static const String categoryUnselected = '$basedir/category_unselected.png';
+  static const String categorySelected = '$basedir/category_selected.png';
   static const String notificationUnselected =
-      'assets/icons/notification_unselected.png';
+      '$basedir/notification_unselected.png';
   static const String notificationSelected =
-      'assets/icons/notification_selected.png';
-  static const String profileUnselected = 'assets/icons/person_unselected.png';
-  static const String profileSelected = 'assets/icons/person_selected.png';
-  static const String appBarNotification =
-      'assets/icons/app_bar_notification.png';
-  static const String videoPlayButton = 'assets/icons/youtube_play_button.png';
-  static const String profileCourse = 'assets/icons/Result (2).png';
-  static const String profileNotification = 'assets/icons/Bell.png';
-  static const String profileEdit = 'assets/icons/Editing.png';
-  static const String profileSupport = 'assets/icons/Help.png';
-  static const String profileShare = 'assets/icons/Share.png';
-  static const String profileRate = 'assets/icons/Rating.png';
-  static const String profileNewVersion = 'assets/icons/Refresh.png';
-  static const String profilePrivacyPolicy = 'assets/icons/Insurance.png';
-  static const String profileDelete = 'assets/icons/Bin.png';
-  static const String profileLogout = 'assets/icons/Exit.png';
-  static const String email = 'assets/icons/Email (1).png';
-  static const String whatsapp = 'assets/icons/Whatsapp (2).png';
-  static const String call = 'assets/icons/Phone receiver silhouette.png';
-  static const String playButtonSmall = 'assets/icons/Group 281.png';
-  static const String lockIcon = 'assets/icons/Group 285.png';
-  static const String bulletPoint = 'assets/icons/martial-arts 3.png';
-  static const String unLockIcon = 'assets/icons/Group 285 (1).png';
-  static const String shareIcon = 'assets/icons/share-2.png';
-  static const String editProfile = 'assets/icons/Group 415.png';
-  static const String assessmentTime = 'assets/icons/formkit_time.png';
-  static const String assessmentQuestion = 'assets/icons/Frame 384.png';
-  static const String assessmentMark = 'assets/icons/Frame 385.png';
+      '$basedir/notification_selected.png';
+  static const String profileUnselected = '$basedir/person_unselected.png';
+  static const String profileSelected = '$basedir/person_selected.png';
+  static const String appBarNotification = '$basedir/app_bar_notification.png';
+  static const String videoPlayButton = '$basedir/youtube_play_button.png';
+  static const String profileCourse = '$basedir/Result (2).png';
+  static const String profileNotification = '$basedir/Bell.png';
+  static const String profileEdit = '$basedir/Editing.png';
+  static const String profileSupport = '$basedir/Help.png';
+  static const String profileShare = '$basedir/Share.png';
+  static const String profileRate = '$basedir/Rating.png';
+  static const String profileNewVersion = '$basedir/Refresh.png';
+  static const String profilePrivacyPolicy = '$basedir/Insurance.png';
+  static const String profileDelete = '$basedir/Bin.png';
+  static const String profileLogout = '$basedir/Exit.png';
+  static const String email = '$basedir/Email (1).png';
+  static const String whatsapp = '$basedir/Whatsapp (2).png';
+  static const String call = '$basedir/Phone receiver silhouette.png';
+  static const String playButtonSmall = '$basedir/Group 281.png';
+  static const String lockIcon = '$basedir/Group 285.png';
+  static const String bulletPoint = '$basedir/martial-arts 3.png';
+  static const String unLockIcon = '$basedir/Group 285 (1).png';
+  static const String shareIcon = '$basedir/share-2.png';
+  static const String editProfile = '$basedir/Group 415.png';
+  static const String assessmentTime = '$basedir/formkit_time.png';
+  static const String assessmentQuestion = '$basedir/Frame 384.png';
+  static const String assessmentMark = '$basedir/Frame 385.png';
+  static const String questionMark = '$basedir/Group 386.png';
 }

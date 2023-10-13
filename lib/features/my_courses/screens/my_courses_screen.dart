@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/my_courses_provider.dart';
-import '../widgets/my_certificates.dart';
+import 'my_certificates_screen.dart';
 import '../widgets/my_course_list.dart';
 
 class MyCoursesScreen extends StatefulWidget {

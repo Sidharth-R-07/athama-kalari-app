@@ -1,12 +1,21 @@
+import 'dart:developer';
+
 import 'package:athma_kalari_app/features/assessment/models/assessment_model.dart';
-import 'package:athma_kalari_app/features/courses/screens/course_details_screen.dart';
+import 'package:athma_kalari_app/features/assessment/provider/assessment_provider.dart';
+
 import 'package:athma_kalari_app/features/home/widgets/introduction_video_container.dart';
+import 'package:athma_kalari_app/general/assets/app_lotties.dart';
 import 'package:athma_kalari_app/general/services/custom_toast.dart';
+import 'package:flutter_swipe_button/flutter_swipe_button.dart';
 import 'package:athma_kalari_app/general/utils/app_colors.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
+
+import 'assessment_countdown_screen.dart';
 
 class AssessmentDetailsScreen extends StatefulWidget {
   final AssessmentModel? assessment;
@@ -23,6 +32,13 @@ class _AssessmentDetailsScreenState extends State<AssessmentDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final assessmentListner = Provider.of<AssessmentProvider>(context);
+    final topicList =
+        widget.assessment?.courseLessons?.map((e) => e.title).toList();
+    final assessmentProvider =
+        Provider.of<AssessmentProvider>(context, listen: false);
+
+    final topicsString = topicList?.join(", ");
     return Scaffold(
       backgroundColor: AppColors.bgGrey,
       appBar: AppBar(
@@ -52,9 +68,8 @@ class _AssessmentDetailsScreenState extends State<AssessmentDetailsScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: const IntroductionVideoContainer(
-                    videoUrl:
-                        "https://youtu.be/2lZ4ZbNGVUU?si=si1xRIZnZljA1VJA"),
+                child: IntroductionVideoContainer(
+                    videoUrl: assessmentListner.getIntroduction!.videoUrl!),
               ),
             ),
           ),
@@ -72,9 +87,9 @@ class _AssessmentDetailsScreenState extends State<AssessmentDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Mei Payattu",
-                    style: TextStyle(
+                  Text(
+                    "${widget.assessment?.courseName}",
+                    style: const TextStyle(
                         fontSize: 17,
                         color: AppColors.textColor,
                         fontWeight: FontWeight.w600,
@@ -91,8 +106,7 @@ class _AssessmentDetailsScreenState extends State<AssessmentDetailsScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  Text(
-                      "introduction to kalari  payattu, attack, deffence, poozhikadakam, olinj maattam",
+                  Text("$topicsString",
                       style: TextStyle(
                           fontSize: 13,
                           color: AppColors.textColor.withOpacity(.7),
@@ -113,33 +127,35 @@ class _AssessmentDetailsScreenState extends State<AssessmentDetailsScreen> {
                   SizedBox(
                     height: 32 * 5,
                     child: ListView.separated(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 5,
-                        itemBuilder: (context, index) => Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: 12,
-                                  height: 12,
-                                  decoration: BoxDecoration(
-                                      color: AppColors.primaryColor,
-                                      borderRadius: BorderRadius.circular(4)),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  "Terms and condition $index",
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    color: AppColors.grey,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: assessmentListner
+                          .getIntroduction!.termsAndConditions!.length,
+                      itemBuilder: (context, index) => Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 12,
+                            height: 12,
+                            decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                borderRadius: BorderRadius.circular(4)),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            "${assessmentListner.getIntroduction?.termsAndConditions?[index]}",
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: AppColors.grey,
+                              fontWeight: FontWeight.w500,
                             ),
-                        separatorBuilder: (context, index) => const SizedBox(
-                              height: 10,
-                            )),
+                          ),
+                        ],
+                      ),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 10,
+                      ),
+                    ),
                   )
                 ],
               ),
@@ -169,25 +185,34 @@ class _AssessmentDetailsScreenState extends State<AssessmentDetailsScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               color: AppColors.bgWhite,
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Conditions",
+                  const Text("Conditions",
                       style: TextStyle(
                           fontSize: 13,
                           color: AppColors.textColor,
                           fontWeight: FontWeight.w600)),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    loremIpus,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: AppColors.grey,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  ReadMoreText(
+                    "${assessmentListner.getIntroduction?.about}",
+                    trimMode: TrimMode.Line,
+                    trimLines: 8,
+                    moreStyle: const TextStyle(
+                        fontSize: 10,
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.w500),
+                    lessStyle: const TextStyle(
+                        fontSize: 10,
+                        color: AppColors.primaryColor,
+                        fontWeight: FontWeight.w500),
+                    style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.grey,
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -231,33 +256,64 @@ class _AssessmentDetailsScreenState extends State<AssessmentDetailsScreen> {
           ),
         ],
       ),
-      bottomSheet: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          MaterialButton(
-            color: AppColors.primaryColor,
-            minWidth: size.width * 0.9,
-            height: 42,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            onPressed: () {
-              if (!isChecked) {
-                CustomToast.errorToast(
-                    message: "Please agree to the terms and conditions");
-              }
-            },
-            child: const Text(
-              'Lets Start',
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+      bottomSheet: Container(
+        width: double.infinity,
+        color: AppColors.bgWhite,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SwipeButton.expand(
+              width: 320,
+              height: 58,
+              thumbPadding: const EdgeInsets.all(6),
+              thumb: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Lottie.asset(
+                  AppLotties.letsStartAssessment,
+                  height: 28,
+                  width: 28,
+                ),
               ),
-            ),
-          ),
-        ],
+              activeThumbColor: AppColors.primaryColor,
+              activeTrackColor: AppColors.bgWhite,
+              onSwipe: () async {
+                if (!isChecked) {
+                  CustomToast.errorToast(
+                      message: "Please agree to the terms and conditions");
+                } else {
+                  Navigator.of(context).push(PageTransition(
+                      child: AssessmentCountdownScreen(
+                        assessment: widget.assessment,
+                      ),
+                      type: PageTransitionType.rightToLeftWithFade));
+                }
+              },
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Let's Start",
+                    style: TextStyle(
+                      color: AppColors.primaryColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Icon(
+                    IconlyLight.arrow_right_2,
+                    color: AppColors.primaryColor,
+                    size: 14,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -31,7 +31,7 @@ class MyCourseProvider with ChangeNotifier {
     required CourseModel course,
     required String registerNumber,
     required BuildContext context,
-    required UserModel  user,
+    required UserModel user,
   }) async {
     bool result = false;
     addingCourseLoading = true;
@@ -58,18 +58,15 @@ class MyCourseProvider with ChangeNotifier {
             questionsCount: course.assessemntDatails?.questionsCount,
             duration: course.assessemntDatails?.duration,
           ),
-          attemptsQuestion: [],
+          attemptsQuestion: 0,
           courseId: course.id,
           courseLessons: course.lessons,
           createdAt: Timestamp.now(),
           userId: FirebaseAuth.instance.currentUser?.uid,
           courseName: course.title,
-        totalQuestions: course.assessemntDatails?.questionsCount,
-        userName: user.name,
-        registerNumber: registerNumber,
-        
-      
-
+          totalQuestions: course.assessemntDatails?.questionsCount,
+          userName: user.name,
+          registerNumber: registerNumber,
         ));
       });
 

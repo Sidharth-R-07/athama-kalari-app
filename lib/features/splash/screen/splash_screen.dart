@@ -1,7 +1,4 @@
-import 'dart:developer';
-
 import 'package:athma_kalari_app/features/home/widgets/bottom_bar.dart';
-import 'package:athma_kalari_app/general/assets/app_icons.dart';
 import 'package:athma_kalari_app/general/assets/app_images.dart';
 import 'package:athma_kalari_app/general/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
       await userProvider.fetchUserDetails().whenComplete(() {
         Navigator.of(context).pushAndRemoveUntil(
             PageTransition(
-                child: const BottomBar(),
+                child: BottomBar(),
                 type: PageTransitionType.leftToRightWithFade),
             (route) => false);
       });
